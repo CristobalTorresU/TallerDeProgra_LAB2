@@ -15,6 +15,7 @@ class Prim {
 		void buscarAristaMinima();
 		bool containsNodo(int n);
 		void pushAristasOut(int nodo);
+		void eliminarNodos(int nodo);
 
 		//Atributes
 		int costoFinal;

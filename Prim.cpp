@@ -3,7 +3,7 @@
 /*	Constructor
  */
 Prim::Prim () {
-	string entrada = "entrada2.txt";
+	string entrada = "entrada3.txt";
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
 	for (int i = 0 ; i < costos->size ; i++) {
@@ -57,14 +57,18 @@ void Prim::resolve () {
 	//Se ingresa el nodo inicial (ultimo)
 	this->nodos.push_back(this->costos->size-1);
 	pushAristasOut(nodos.front());
-
+	
 	while (nodos.size() < this->costos->size) {
 		buscarAristaMinima();
 		pushAristasOut(nodos.back());
 	}
-
 	aristaOut.clear();
-	print();
+	ofstream file;
+	file.open("result.txt");
+	for (int i = 0 ; i < nodos.size() ; i++) {
+		file << nodos[i] << endl;
+	}
+	file.close();
 }
 
 /*	Encuentra la arista que tiene el menor valor dentro del arbol
@@ -83,10 +87,14 @@ void Prim::buscarAristaMinima () {
 	aristaOut.erase(aristaOut.begin() + pos);
 	costoFinal += min;
 	//Agrega el nodo al vector
-	if (!containsNodo(arista.back()->i)) {
-		nodos.push_back(arista.back()->i);
-	} else {
+	if (containsNodo(arista.back()->i)) {
+		eliminarNodos(arista.back()->j);
 		nodos.push_back(arista.back()->j);
+		return;
+	} else {
+		eliminarNodos(arista.back()->i);
+		nodos.push_back(arista.back()->i);
+		return;
 	}
 }
 
@@ -113,6 +121,28 @@ void Prim::pushAristasOut (int nodo) {
 		}
 	}
 }
+
+/*
+ */
+void Prim::eliminarNodos (int nodo) {
+	for (int i = 0 ; i < this->nodos.size() ; i++) {
+		for (int j = 0 ; j < aristaOut.size() ; j++) {
+			if ((nodos[i] == aristaOut[j]->i &&
+				nodo == aristaOut[j]->j) ||
+				(nodos[i] == aristaOut[j]->j &&
+				nodo == aristaOut[j]->i)) {
+				aristaOut.erase(aristaOut.begin() + j);
+				j -= 1;
+			}
+		}
+	}
+}
+
+
+
+
+
+
 
 
 
