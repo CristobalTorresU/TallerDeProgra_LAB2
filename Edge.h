@@ -8,6 +8,7 @@ class Edge {
 		Edge(int i, int j, int cost);
 		Edge();
 		~Edge();
+		bool contains(int nodo);
 
 		//Atributes
 		int i;

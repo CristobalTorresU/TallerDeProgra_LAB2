@@ -12,9 +12,12 @@ class Prim {
 		~Prim();
 		void print();
 		void resolve();
-		int buscarAristaMinima();
+		void buscarAristaMinima();
+		bool containsNodo(int n);
+		void pushAristasOut(int nodo);
 
 		//Atributes
+		int costoFinal;
 		MatrizCostos *costos;
 		vector<int> nodos;
 		vector<Edge*> arista;

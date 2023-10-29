@@ -21,3 +21,16 @@ Edge::Edge () {
 Edge::~Edge () {
 	// delete
 }
+
+bool Edge::contains (int nodo) {
+	if (this->i == nodo || this->j == nodo) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+
+
+

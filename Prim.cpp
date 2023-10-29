@@ -3,7 +3,7 @@
 /*	Constructor
  */
 Prim::Prim () {
-	string entrada = "entrada3.txt";
+	string entrada = "entrada2.txt";
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
 	for (int i = 0 ; i < costos->size ; i++) {
@@ -14,6 +14,7 @@ Prim::Prim () {
 			}
 		}
 	}
+	this->costoFinal = 0;
 }
 
 /* Destructor	
@@ -36,39 +37,82 @@ void Prim::print () {
 	}
 	//Arista
 	for (int i = 0 ; i < arista.size() ; i++) {
-		cout << "Arista " << i << ": (" << arista[i]->i << "," << arista[i]->j << ")" << "  Coste: " << endl;
+		cout << "Arista " << i << ": (" << arista[i]->i << "," << arista[i]->j << ")" << "  Coste: " << arista[i]->cost << endl;
 	}
 	//AristaOut
 	for (int i = 0 ; i < aristaOut.size() ; i++) {
-		cout << "Arista " << i << ": (" << aristaOut[i]->i << "," << aristaOut[i]->j << ")" << "  Coste: " << aristaOut[i]->cost << endl;
+		cout << "Arista Out " << i << ": (" << aristaOut[i]->i << "," << aristaOut[i]->j << ")" << "  Coste: " << aristaOut[i]->cost << endl;
 	}
 	//AristaDisponibles
 	for (int i = 0 ; i < aristaDisponibles.size() ; i++) {
-		cout << "Arista " << i << ": (" << aristaDisponibles[i]->i << "," << aristaDisponibles[i]->j << ")" << "  Coste: " << aristaDisponibles[i]->cost << endl;
+		cout << "Arista Disponibles " << i << ": (" << aristaDisponibles[i]->i << "," << aristaDisponibles[i]->j << ")" << "  Coste: " << aristaDisponibles[i]->cost << endl;
 	}
-
+	//Costo Final
+	cout << "Costo final: " << this->costoFinal << endl << endl << endl;
 }
 
 /*	Resuelve el algoritmo de Prim
- *	TODO: RESOLVER LA CUESTION XDDDDD
  */
 void Prim::resolve () {
-	while () {}
+	//Se ingresa el nodo inicial (ultimo)
+	this->nodos.push_back(this->costos->size-1);
+	pushAristasOut(nodos.front());
+
+	while (nodos.size() < this->costos->size) {
+		buscarAristaMinima();
+		pushAristasOut(nodos.back());
+	}
+
+	aristaOut.clear();
+	print();
 }
 
 /*	Encuentra la arista que tiene el menor valor dentro del arbol
  *	TODO: Probar usando heap o un quicksort para comparar como afecta al tiempo de ejecucion
  */
-int Prim::buscarAristaMinima () {
-	int min = 0, pos = 0;
+void Prim::buscarAristaMinima () {
+	int min = aristaOut[0]->cost, pos = 0;
 	for (int i = 0 ; i < aristaOut.size() ; i++) {
-		if (min > aristaOut[i]->cost) {
+		if (min > aristaOut[i]->cost && (containsNodo(aristaOut[i]->i) || containsNodo(aristaOut[i]->j))) {
 			min = aristaOut[i]->cost;
+			pos = i;
 		}
 	}
-	return pos;
+	Edge* nuevaArista = new Edge(aristaOut[pos]->i, aristaOut[pos]->j, aristaOut[pos]->cost);
+	arista.push_back(nuevaArista);
+	aristaOut.erase(aristaOut.begin() + pos);
+	costoFinal += min;
+	//Agrega el nodo al vector
+	if (!containsNodo(arista.back()->i)) {
+		nodos.push_back(arista.back()->i);
+	} else {
+		nodos.push_back(arista.back()->j);
+	}
 }
 
+/*	Verifica si el vector de nodos contiene uno en especifico
+ */
+bool Prim::containsNodo (int n) {
+	for (int i = 0 ; i < this->nodos.size() ; i++) {
+		if (this->nodos[i] == n) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/*	Ingresar AristaDisponibles en AristaOut
+ */
+void Prim::pushAristasOut (int nodo) {
+	for (int i = 0 ; i < aristaDisponibles.size() ; i++) {
+		if (aristaDisponibles[i]->contains(nodo)) {
+			Edge* nuevaArista = new Edge(aristaDisponibles[i]->i, aristaDisponibles[i]->j, aristaDisponibles[i]->cost);
+			aristaDisponibles.erase(aristaDisponibles.begin() + i);
+			aristaOut.push_back(nuevaArista);
+			i -= 1;
+		}
+	}
+}
 
 
 
