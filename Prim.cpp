@@ -1,9 +1,11 @@
 #include "Prim.h"
 
 /*	Constructor
+ *	TODO: Que el nombre del archivo sea ingresado por consola
+ *	TODO: Verificar que ocurre con la demora cuando se utiliza heap
  */
 Prim::Prim () {
-	string entrada = "entrada3.txt";
+	string entrada = "aleatorio.txt";
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
 	for (int i = 0 ; i < costos->size ; i++) {
@@ -81,6 +83,9 @@ void Prim::buscarAristaMinima () {
 			min = aristaOut[i]->cost;
 			pos = i;
 		}
+		if (min == 1) {
+			break;
+		}
 	}
 	Edge* nuevaArista = new Edge(aristaOut[pos]->i, aristaOut[pos]->j, aristaOut[pos]->cost);
 	arista.push_back(nuevaArista);
@@ -122,7 +127,7 @@ void Prim::pushAristasOut (int nodo) {
 	}
 }
 
-/*
+/*	TODO: OPTIMIZABLE, realizar un break, ya que solo elimina 1 arista
  */
 void Prim::eliminarNodos (int nodo) {
 	for (int i = 0 ; i < this->nodos.size() ; i++) {
@@ -132,7 +137,7 @@ void Prim::eliminarNodos (int nodo) {
 				(nodos[i] == aristaOut[j]->j &&
 				nodo == aristaOut[j]->i)) {
 				aristaOut.erase(aristaOut.begin() + j);
-				j -= 1;
+				break;
 			}
 		}
 	}

@@ -4,8 +4,8 @@
 
 using namespace std;
 
-#define SIZE 50
-#define RANDOM 80
+#define SIZE 300
+#define RANDOM 1000
 
 int main () {
 	//Crear la matriz
