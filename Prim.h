@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
-#include "Edge.h"
+#include <set>
+#include "Comparator.h"
 #include "MatrizCostos.h"
 
 using namespace std;
@@ -20,8 +20,8 @@ class Prim {
 		//Atributes
 		int costoFinal;
 		MatrizCostos *costos;
-		vector<int> nodos;
-		vector<Edge*> arista;
-		vector<Edge*> aristaOut;
-		vector<Edge*> aristaDisponibles;
+		set<int> nodos;
+		multiset<Edge*, Comparator> arista;
+		multiset<Edge*, Comparator> aristaOut;
+		multiset<Edge*, Comparator> aristaDisponibles;
 };
