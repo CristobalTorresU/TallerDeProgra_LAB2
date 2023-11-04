@@ -60,29 +60,30 @@ void Prim::print () {
 /*	Resuelve el algoritmo de Prim
  */
 void Prim::resolve () {
+	auto start = high_resolution_clock::now();
 	//Se ingresa el nodo inicial (ultimo)
 	nodos.insert(this->costos->size-1);
 
-	auto it = nodos.begin();
+	pushAristasOut(this->costos->size-1);
 
-	// TODO: Probablemente un error
-	pushAristasOut((*it));
-
+	//print();
+	int min;
 	while (nodos.size() < this->costos->size) {
-		buscarAristaMinima();
-		it++;
-		pushAristasOut((*it));
+		min = buscarAristaMinima();
+		pushAristasOut(min);
+		//print();
 	}
-	aristaOut.clear();
 	
-	/*
-	ofstream file;
-	file.open("result.txt");
-	for (int i = 0 ; i < nodos.size() ; i++) {
-		file << nodos[i] << endl;
-	}
-	file.close();
-	*/
+	cout << "Costo Final: " << costoFinal << endl << endl;
+
+	//Calcular tiempo de ejecucion
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+
+	cout << "Time taken by function: ";
+	cout << duration.count() << " microseconds" << endl;
+
+	aristaOut.clear();
 }
 
 /*	Encuentra la arista que tiene el menor valor dentro del arbol
@@ -90,8 +91,9 @@ void Prim::resolve () {
  *	TODO: Probar que ocurre si no se eliminan las aristas inutiles
  *	TODO: Probar cuando se elimina todo lo que busca, ya que aristaOut ya tienen aristas que sirven
  *	TODO: Implementar con find
+ *	TODO: Probar solo usando begin() y sin iteradores
  */
-void Prim::buscarAristaMinima () {
+int Prim::buscarAristaMinima () {
 	auto it = aristaOut.begin();
 	Edge* nuevaArista = new Edge((*it)->i, (*it)->j, (*it)->cost);
 	arista.insert(nuevaArista);
@@ -99,22 +101,27 @@ void Prim::buscarAristaMinima () {
 	aristaOut.erase(it);
 
 	//Agrega el nodo al vector
+	//TODO: Usar find para encontrar los nodos
+	//TODO: Probar usando solamente insert con el set, ya que no se repetiran
 	if (containsNodo(nuevaArista->i)) {
 		eliminarNodos(nuevaArista->j);
 		nodos.insert(nuevaArista->j);
-		return;
+		return nuevaArista->j;
 	} else {
 		eliminarNodos(nuevaArista->i);
 		nodos.insert(nuevaArista->i);
-		return;
+		return nuevaArista->i;
 	}
+
+	//nodos.insert(nuevaArista->i);
+	//nodos.insert(nuevaArista->j);
 }
 
 /*	Verifica si el vector de nodos contiene uno en especifico
  */
 bool Prim::containsNodo (int n) {
 	auto it = nodos.begin();
-	for (; it != nodos.end() ; it++) {
+	for (; it != nodos.end() ; ++it) {
 		if ((*it) == n) {
 			return true;
 		}
@@ -126,21 +133,18 @@ bool Prim::containsNodo (int n) {
  *	TODO: Implementar con find
  *	TODO: Retroceder el it
  *	TODO: Aplicar de forma inteligente, siempre estan ordenados con el menor primero
+ *	TODO: Guardar el iterador en el estado anterior
  */
 void Prim::pushAristasOut (int nodo) {
-	auto it = aristaDisponibles.begin();
-	for (; it != aristaDisponibles.end() ; it++) {
+	for (auto it = aristaDisponibles.begin(); it != aristaDisponibles.end() ;) {
 		if ((*it)->contains(nodo)) {
-			cout << "owo" << endl;
 			Edge* nuevaArista = new Edge((*it)->i, (*it)->j, (*it)->cost);
-			aristaDisponibles.erase(it);
+			it = aristaDisponibles.erase(it);
 			aristaOut.insert(nuevaArista);
-			it--;
-			cout << "owo" << endl;
+		} else {
+			++it;
 		}
 	}
-
-	auto it = aristaDisponibles.find();
 }
 
 /*	Elimina todas las aristas que ya no se utilizaran en la solucion
@@ -150,10 +154,8 @@ void Prim::pushAristasOut (int nodo) {
  *	TODO: Buscar de forma inteligente, siempre estan ordenados con el menor primero
  */
 void Prim::eliminarNodos (int nodo) {
-	auto it1 = nodos.begin();
-	for (; it1 != nodos.end() ; it1++) {
-		auto it2 = aristaOut.begin();
-		for (; it2 != aristaOut.end() ; it2++) {
+	for (auto it1 = nodos.begin(); it1 != nodos.end() ; ++it1) {
+		for (auto it2 = aristaOut.begin(); it2 != aristaOut.end() ; ++it2) {
 			if (((*it1) == (*it2)->i &&
 				nodo == (*it2)->j) ||
 				((*it1) == (*it2)->j &&

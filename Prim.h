@@ -1,9 +1,11 @@
 #include <iostream>
 #include <set>
+#include <chrono>
 #include "Comparator.h"
 #include "MatrizCostos.h"
 
 using namespace std;
+using namespace std::chrono;
 
 class Prim {
 	public:
@@ -12,7 +14,7 @@ class Prim {
 		~Prim();
 		void print();
 		void resolve();
-		void buscarAristaMinima();
+		int buscarAristaMinima();
 		bool containsNodo(int n);
 		void pushAristasOut(int nodo);
 		void eliminarNodos(int nodo);

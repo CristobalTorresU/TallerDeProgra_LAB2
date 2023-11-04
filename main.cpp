@@ -12,6 +12,6 @@ using namespace std;
 int main () {
 	Prim algoritmo;
 	algoritmo.resolve();
-	algoritmo.print();
+	//algoritmo.print();
 	return 0;
 }
