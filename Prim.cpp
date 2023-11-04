@@ -112,9 +112,6 @@ int Prim::buscarAristaMinima () {
 		nodos.insert(nuevaArista->i);
 		return nuevaArista->i;
 	}
-
-	//nodos.insert(nuevaArista->i);
-	//nodos.insert(nuevaArista->j);
 }
 
 /*	Verifica si el vector de nodos contiene uno en especifico
@@ -131,9 +128,7 @@ bool Prim::containsNodo (int n) {
 
 /*	Ingresar AristaDisponibles en AristaOut
  *	TODO: Implementar con find
- *	TODO: Retroceder el it
  *	TODO: Aplicar de forma inteligente, siempre estan ordenados con el menor primero
- *	TODO: Guardar el iterador en el estado anterior
  */
 void Prim::pushAristasOut (int nodo) {
 	for (auto it = aristaDisponibles.begin(); it != aristaDisponibles.end() ;) {
@@ -148,26 +143,32 @@ void Prim::pushAristasOut (int nodo) {
 }
 
 /*	Elimina todas las aristas que ya no se utilizaran en la solucion
- *	TODO: Adaptar para utilizarlo con iteradores
  *	TODO: Poner nombres significativos para los iteradores
- *	TODO: Implementar con find
- *	TODO: Buscar de forma inteligente, siempre estan ordenados con el menor primero
  */
 void Prim::eliminarNodos (int nodo) {
-	for (auto it1 = nodos.begin(); it1 != nodos.end() ; ++it1) {
-		for (auto it2 = aristaOut.begin(); it2 != aristaOut.end() ; ++it2) {
-			if (((*it1) == (*it2)->i &&
-				nodo == (*it2)->j) ||
-				((*it1) == (*it2)->j &&
-				nodo == (*it2)->i)) {
+	// IMPLEMENTACION CON FIND
+	int iBuscado;
+	int jBuscado;
+	for (auto it = nodos.begin() ; it != nodos.end() ; ++it) {
+		if ((*it) < nodo) {
+			// ((*it),nodo)
+			iBuscado = (*it);
+			jBuscado = nodo;
+			auto it1 = find_if(aristaOut.begin(), aristaOut.end(), BusquedaPorNodos(iBuscado,jBuscado));
+			if (it1 != aristaOut.end()) {
+				aristaOut.erase(it1);
+			}
+		} else {
+			// (nodo,(*it))
+			iBuscado = nodo;
+			jBuscado = (*it);
+			auto it2 = find_if(aristaOut.begin(), aristaOut.end(), BusquedaPorNodos(iBuscado,jBuscado));
+			if (it2 != aristaOut.end()) {
 				aristaOut.erase(it2);
-				break;
 			}
 		}
 	}
 }
-
-
 
 
 

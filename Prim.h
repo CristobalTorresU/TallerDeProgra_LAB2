@@ -1,7 +1,9 @@
 #include <iostream>
 #include <set>
+#include <algorithm>
 #include <chrono>
 #include "Comparator.h"
+#include "BusquedaPorNodos.h"
 #include "MatrizCostos.h"
 
 using namespace std;

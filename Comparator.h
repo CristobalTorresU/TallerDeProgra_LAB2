@@ -1,3 +1,5 @@
+#ifndef COMPARATOR_H
+#define COMPARATOR_H
 #include <iostream>
 #include <set>
 #include "Edge.h"
@@ -10,3 +12,5 @@ class Comparator {
 		bool operator ()(const Edge* a, const Edge*b) const;
 		//Atributes
 };
+
+#endif

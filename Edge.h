@@ -1,3 +1,5 @@
+#ifndef EDGE_H
+#define EDGE_H
 #include <iostream>
 
 /* Clase que representa cada arista del algoritmo
@@ -15,3 +17,5 @@ class Edge {
 		int j;
 		int cost;
 };
+
+#endif
