@@ -1,5 +1,7 @@
 #include "MatrizCostos.h"
 
+/* Crea una matriz del tamaño de la cantidad de líneas que tenga el archivo
+ */
 MatrizCostos::MatrizCostos (string matrizEntrada) {
 	ifstream file(matrizEntrada);
 	string line;
@@ -13,14 +15,11 @@ MatrizCostos::MatrizCostos (string matrizEntrada) {
 	this->matriz = new int*[size];
 	for (int i = 0 ; i < size ; i++) {
 		this->matriz[i] = new int[size];
-		for (int j = 0 ; j < size ; j++) {
-			this->matriz[i][j] = 0;
-		}
 	}
 }
 
-// TODO: Verificar que el archivo exista, en caso de que no, 
-// finalizar la ejecucion
+/*
+ */
 void MatrizCostos::readFile(string matrizEntrada) {
 	ifstream file(matrizEntrada);
 	string line, value;
@@ -31,7 +30,7 @@ void MatrizCostos::readFile(string matrizEntrada) {
 		charStream << line;
 		stringstream part(line);
 		while (getline(part, value, ' ')) {
-			insertValue(countI, countJ, stoi(value));
+			matriz[countI][countJ] = stoi(value);
 			countJ += 1;
 		}
 		countJ = 0;
@@ -42,20 +41,8 @@ void MatrizCostos::readFile(string matrizEntrada) {
 	cout << "Cantidad de nodos: " << countI << endl << endl;
 }
 
+/*
+ */
 MatrizCostos::~MatrizCostos () {
 	delete[] this->matriz;
-}
-
-void MatrizCostos::insertValue (int i, int j, int value) {
-	this->matriz[i][j] = value;
-}
-
-void MatrizCostos::print () {
-	cout << "Matriz de Costos:" << endl;
-	for (int i = 0 ; i < this->size ; i++) {
-		for (int j = 0 ; j < size ; j++) {
-			cout << this->matriz[i][j] << " ";
-		}
-		cout << endl;
-	}
 }

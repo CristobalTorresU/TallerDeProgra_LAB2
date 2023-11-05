@@ -1,17 +1,15 @@
 #include <iostream>
+#include <string>
 #include <set>
-#include <algorithm>
-#include <chrono>
 #include "Comparator.h"
 #include "MatrizCostos.h"
 
 using namespace std;
-using namespace std::chrono;
 
 class Prim {
 	public:
 		//Methods
-		Prim();
+		Prim(string entrada);
 		~Prim();
 		void print();
 		void resolve();
