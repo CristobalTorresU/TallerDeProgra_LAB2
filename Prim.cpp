@@ -5,7 +5,7 @@
  *	TODO: Verificar que ocurre con la demora cuando se utiliza heap
  */
 Prim::Prim () {
-	string entrada = "aleatorio.txt";
+	string entrada = "costos.txt";
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
 	for (int i = 0 ; i < costos->size ; i++) {
@@ -66,68 +66,62 @@ void Prim::resolve () {
 
 	pushAristasOut(this->costos->size-1);
 
-	//print();
-	int min;
 	while (nodos.size() < this->costos->size) {
-		min = buscarAristaMinima();
-		pushAristasOut(min);
-		//print();
+		buscarAristaMinima();
 	}
 	
 	cout << "Costo Final: " << costoFinal << endl << endl;
 
 	//Calcular tiempo de ejecucion
 	auto stop = high_resolution_clock::now();
-	auto duration = duration_cast<microseconds>(stop - start);
+	auto duration = duration_cast<milliseconds>(stop - start);
 
 	cout << "Time taken by function: ";
-	cout << duration.count() << " microseconds" << endl;
+	cout << duration.count() << " milliseconds" << endl;
 
 	aristaOut.clear();
 }
 
 /*	Encuentra la arista que tiene el menor valor dentro del arbol
- *	TODO: Probar usando heap o un quicksort para comparar como afecta al tiempo de ejecucion
- *	TODO: Probar que ocurre si no se eliminan las aristas inutiles
- *	TODO: Probar cuando se elimina todo lo que busca, ya que aristaOut ya tienen aristas que sirven
- *	TODO: Implementar con find
- *	TODO: Probar solo usando begin() y sin iteradores
  */
-int Prim::buscarAristaMinima () {
+void Prim::buscarAristaMinima () {
 	auto it = aristaOut.begin();
-	Edge* nuevaArista = new Edge((*it)->i, (*it)->j, (*it)->cost);
-	arista.insert(nuevaArista);
-	costoFinal += nuevaArista->cost;
-	aristaOut.erase(it);
 
 	//Agrega el nodo al vector
-	//TODO: Usar find para encontrar los nodos
-	//TODO: Probar usando solamente insert con el set, ya que no se repetiran
-	if (containsNodo(nuevaArista->i)) {
-		eliminarNodos(nuevaArista->j);
-		nodos.insert(nuevaArista->j);
-		return nuevaArista->j;
-	} else {
-		eliminarNodos(nuevaArista->i);
-		nodos.insert(nuevaArista->i);
-		return nuevaArista->i;
+	if (!containsNodo((*it)->i) || !containsNodo((*it)->j)) {
+		if (containsNodo((*it)->i)) {
+			insertarAristaYNodo((*it), (*it)->j);
+			pushAristasOut((*it)->j);
+		} else if (containsNodo((*it)->j)){
+			insertarAristaYNodo((*it), (*it)->i);
+			pushAristasOut((*it)->i);
+		}
 	}
+
+	aristaOut.erase(it);
+}
+
+/*	Inserta el nodo y arista ingresados
+ */
+void Prim::insertarAristaYNodo (Edge* nuevaArista, int nodo) {
+	nodos.insert(nodo);
+	arista.insert(nuevaArista);
+	costoFinal += nuevaArista->cost;
 }
 
 /*	Verifica si el vector de nodos contiene uno en especifico
+ *	TODO: Probar con directamente un arreglo
  */
 bool Prim::containsNodo (int n) {
-	auto it = nodos.begin();
-	for (; it != nodos.end() ; ++it) {
-		if ((*it) == n) {
-			return true;
-		}
+	auto it = nodos.find(n);
+	if (it != nodos.end()) {
+		return true;
 	}
+
 	return false;
 }
 
 /*	Ingresar AristaDisponibles en AristaOut
- *	TODO: Implementar con find
  *	TODO: Aplicar de forma inteligente, siempre estan ordenados con el menor primero
  */
 void Prim::pushAristasOut (int nodo) {
@@ -144,7 +138,9 @@ void Prim::pushAristasOut (int nodo) {
 
 /*	Elimina todas las aristas que ya no se utilizaran en la solucion
  *	TODO: Poner nombres significativos para los iteradores
+ *	TODO: Verificar si se puede optimizar aun mas.
  */
+/*
 void Prim::eliminarNodos (int nodo) {
 	// IMPLEMENTACION CON FIND
 	int iBuscado;
@@ -169,7 +165,7 @@ void Prim::eliminarNodos (int nodo) {
 		}
 	}
 }
-
+*/
 
 
 

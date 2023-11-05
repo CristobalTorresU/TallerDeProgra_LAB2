@@ -1,40 +1,54 @@
+// Para usar el generador ./generador <tamaño matix>
 #include <iostream>
 #include <fstream>
-#include <sstream>
+#include <cstdlib>  // for atoi and rand
+#include <ctime>    // for time
 
 using namespace std;
 
-#define SIZE 300
-#define RANDOM 1000
+int main(int argc, char *argv[]) {
+    // Seed the random number generator
+    srand(static_cast<unsigned int>(time(0)));
 
-int main () {
-	//Crear la matriz
-	int **matriz = new int*[SIZE];
-	for (int i = 0 ; i < SIZE ; i++) {
-		matriz[i] = new int[SIZE];
-	}
+    if(argc != 2) {
+        cerr << "Usage: " << argv[0] << " size" << endl;
+        return 1;
+    }
 
-	//Llenar la matriz
-	for (int i = 0 ; i < SIZE ; i++) {
-		for (int j = i ; j < SIZE ; j++) {
-			if (i == j) {
-				matriz[i][j] = 0;
-			} else {
-				matriz[i][j] = rand() % RANDOM;
-				matriz[j][i] = matriz[i][j];
-			}
-		}
-	}
+    int n = atoi(argv[1]); // Convert the argument to an integer
+    int **c = new int*[n];
+    ofstream archivo("costos.txt");
+    
+    if(!archivo) {
+        cerr << "Cannot open file." << endl;
+        return 1;
+    }
 
-	//Escribir la matriz
-	ofstream file;
-	file.open("aleatorio.txt");
-	for (int i = 0 ; i < SIZE ; i++) {
-		for (int j = 0 ; j < SIZE ; j++) {
-			file << matriz[i][j] << " ";
-		}
-		file << endl;
-	}
-	file.close();
-	return 0;
+    for (int i = 0; i < n; i++) {
+        c[i] = new int[n];
+    }
+
+    for(int i = 0; i < n; i++) {
+        c[i][i] = 0;
+        for(int j=i+1; j < n; j++) {
+            c[i][j] = rand() % 1000 + 1;
+            c[j][i] = c[i][j];
+        }
+    }
+    
+    for(int i = 0; i < n; i++) {
+        for(int j=0; j < n; j++) {
+            archivo << c[i][j] << " ";
+        }
+        archivo << endl;
+    }
+
+    // Free the allocated memory
+    for (int i = 0; i < n; i++) {
+        delete[] c[i];
+    }
+    delete[] c;
+
+    archivo.close();
+    return 0;
 }

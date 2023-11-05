@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <chrono>
 #include "Comparator.h"
-#include "BusquedaPorNodos.h"
 #include "MatrizCostos.h"
 
 using namespace std;
@@ -16,15 +15,15 @@ class Prim {
 		~Prim();
 		void print();
 		void resolve();
-		int buscarAristaMinima();
+		void buscarAristaMinima();
 		bool containsNodo(int n);
 		void pushAristasOut(int nodo);
-		void eliminarNodos(int nodo);
+		void insertarAristaYNodo(Edge* nuevaArista, int nodo);
 
 		//Atributes
 		int costoFinal;
 		MatrizCostos *costos;
-		set<int> nodos;
+		multiset<int> nodos;
 		multiset<Edge*, Comparator> arista;
 		multiset<Edge*, Comparator> aristaOut;
 		multiset<Edge*, Comparator> aristaDisponibles;
