@@ -11,7 +11,6 @@ class MatrizCostos {
 		MatrizCostos(string matrizEntrada);
 		~MatrizCostos();
 		void readFile(string matrizEntrada);
-		void insertValue(int i, int j, int value);
 		void print();
 	
 		//Atributes

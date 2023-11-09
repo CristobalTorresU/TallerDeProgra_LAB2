@@ -13,6 +13,13 @@ Prim::Prim (string entrada) {
 			}
 		}
 	}
+	// NUEVO
+	nodos = new bool[costos->size];
+	for (int i = 0 ; i < costos->size ; i++) {
+		nodos[i] = false;
+	}
+	Nnodos = 0;
+	// NUEVO
 	this->costoFinal = 0;
 }
 
@@ -31,10 +38,12 @@ Prim::~Prim () {
  */
 void Prim::print () {
 	//Nodos
+	/*
 	auto it1 = nodos.begin();
 	for (; it1 != nodos.end() ; it1++) {
 		cout << "Nodo: " << (*it1) << endl;
 	}
+	*/
 	//Arista
 	auto it2 = arista.begin();
 	for (; it2 != arista.end() ; it2++) {
@@ -48,11 +57,13 @@ void Prim::print () {
  */
 void Prim::resolve () {
 	//Se ingresa el nodo inicial (ultimo)
-	nodos.insert(this->costos->size-1);
+	//nodos.insert(this->costos->size-1);
+	nodos[this->costos->size-1] = true;
+	Nnodos += 1;
 
 	pushAristasOut(this->costos->size-1);
 
-	while (nodos.size() < this->costos->size) {
+	while (Nnodos < this->costos->size) {
 		buscarAristaMinima();
 	}
 
@@ -81,7 +92,8 @@ void Prim::buscarAristaMinima () {
 /*	Inserta el nodo y arista ingresados
  */
 void Prim::insertarAristaYNodo (Edge* nuevaArista, int nodo) {
-	nodos.insert(nodo);
+	nodos[nodo] = true;
+	Nnodos += 1;
 	arista.insert(nuevaArista);
 	costoFinal += nuevaArista->cost;
 }
@@ -89,12 +101,15 @@ void Prim::insertarAristaYNodo (Edge* nuevaArista, int nodo) {
 /*	Verifica si el vector de nodos contiene uno en especifico
  */
 bool Prim::containsNodo (int n) {
+	/*
 	auto it = nodos.find(n);
 	if (it != nodos.end()) {
 		return true;
 	}
 
 	return false;
+	*/
+	return nodos[n];
 }
 
 /*	Ingresar AristaDisponibles en AristaOut

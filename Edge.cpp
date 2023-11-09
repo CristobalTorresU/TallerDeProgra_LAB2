@@ -19,9 +19,10 @@ Edge::Edge () {
 /* Destructor
  */
 Edge::~Edge () {
-	// delete
 }
 
+/*	Verifica si el Edge contiene el nodo ingresado.
+ */
 bool Edge::contains (int nodo) {
 	if (this->i == nodo || this->j == nodo) {
 		return true;
@@ -29,8 +30,3 @@ bool Edge::contains (int nodo) {
 		return false;
 	}
 }
-
-
-
-
-

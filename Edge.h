@@ -2,6 +2,8 @@
 #define EDGE_H
 #include <iostream>
 
+using namespace std;
+
 /* Clase que representa cada arista del algoritmo
  */
 class Edge {

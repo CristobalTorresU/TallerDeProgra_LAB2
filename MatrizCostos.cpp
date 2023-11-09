@@ -18,7 +18,7 @@ MatrizCostos::MatrizCostos (string matrizEntrada) {
 	}
 }
 
-/*
+/*	Agrega los valores desde el archivo de entrada a la clase MatrizCostos
  */
 void MatrizCostos::readFile(string matrizEntrada) {
 	ifstream file(matrizEntrada);
@@ -46,3 +46,18 @@ void MatrizCostos::readFile(string matrizEntrada) {
 MatrizCostos::~MatrizCostos () {
 	delete[] this->matriz;
 }
+
+void MatrizCostos::print() {
+	for (int i = 0 ; i < this->size ; i++) {
+		for (int j = 0 ; j < this->size ; j++) {
+			cout << matriz[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+
+
+
+

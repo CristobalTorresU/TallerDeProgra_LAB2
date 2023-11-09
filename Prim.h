@@ -21,8 +21,10 @@ class Prim {
 		//Atributes
 		int costoFinal;
 		MatrizCostos *costos;
-		multiset<int> nodos;
-		multiset<Edge*, Comparator> arista;
+		//multiset<int> nodos;
+		bool* nodos;
+		int Nnodos;
+		multiset<Edge*> arista;
 		multiset<Edge*, Comparator> aristaOut;
 		multiset<Edge*, Comparator> aristaDisponibles;
 };
