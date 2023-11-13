@@ -4,20 +4,28 @@
 
 using namespace std;
 
-/* Clase que representa cada arista del algoritmo
+/* 
+	* Clase Edge:
+	* Clase que representa cada arista del algoritmo
+	*
  */
 class Edge {
 	public:
-		//Methods
-		Edge(int i, int j, int cost);
-		Edge();
-		~Edge();
-		bool contains(int nodo);
-
-		//Atributes
+		// Atributos
 		int i;
 		int j;
 		int cost;
+
+		// Metodos
+
+		// Constructor
+		Edge(int i, int j, int cost);
+		
+		// Destructor
+		~Edge();
+		
+		// Otros metodos
+		bool contains(int nodo);
 };
 
-#endif
+#endif /* EDGE_H */

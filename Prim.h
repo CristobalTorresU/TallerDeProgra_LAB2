@@ -6,25 +6,33 @@
 
 using namespace std;
 
+/*
+	* Clase Prim:
+	* uwu
+ */
 class Prim {
 	public:
-		//Methods
-		Prim(string entrada);
-		~Prim();
-		void print();
-		void resolve();
-		void buscarAristaMinima();
-		bool containsNodo(int n);
-		void pushAristasOut(int nodo);
-		void insertarAristaYNodo(Edge* nuevaArista, int nodo);
-
-		//Atributes
+		// Atributos
 		int costoFinal;
 		MatrizCostos *costos;
-		//multiset<int> nodos;
-		bool* nodos;
-		int Nnodos;
-		multiset<Edge*> arista;
+		multiset<int> nodos;
+		multiset<Edge*, Comparator> arista;
 		multiset<Edge*, Comparator> aristaOut;
-		multiset<Edge*, Comparator> aristaDisponibles;
+		multiset<Edge*, Comparator>* aristaDisponibles;
+
+		// Metodos
+		// Constructor
+		Prim(string entrada);
+		
+		// Destructor
+		~Prim();
+		
+		// Otros metodos
+		void resolve();
+		void print();
+		void buscarAristaMinima();
+		bool contieneElNodo(int n);
+		void moverAAristasOut(int nodo);
+		void insertarAristaYNodo(Edge* nuevaArista, int nodo);
+		void almacenarDisponibles(Edge* nuevaArista);
 };

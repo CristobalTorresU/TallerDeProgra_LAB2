@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/*
+	* Clase Comparator:
+	*
+	*
+	* El comparadord esta representado blablabla
+*/
 class Comparator {
 	public:
 		//Methods
@@ -13,4 +19,4 @@ class Comparator {
 		//Atributes
 };
 
-#endif
+#endif /* COMPARATOR_H */

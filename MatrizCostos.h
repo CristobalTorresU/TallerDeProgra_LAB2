@@ -5,15 +5,23 @@
 
 using namespace std;
 
+/*
+	* Clase MatrizCostos:
+	* uwu
+ */
 class MatrizCostos {
 	public:
-		//Methods
-		MatrizCostos(string matrizEntrada);
-		~MatrizCostos();
-		void readFile(string matrizEntrada);
-		void print();
-	
-		//Atributes
+		// Atributos
 		int size;
 		int **matriz;
+
+		// Metodos
+		// Constructor
+		MatrizCostos(string matrizEntrada);
+		// Destructor
+		~MatrizCostos();
+
+		// OtrosMetodos
+		void readFile(string matrizEntrada);
+		void print();
 };

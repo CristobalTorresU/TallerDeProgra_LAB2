@@ -1,6 +1,13 @@
 #include "MatrizCostos.h"
 
-/* Crea una matriz del tamaño de la cantidad de líneas que tenga el archivo
+/*
+	* Método: Constructor->MatrizCostos
+	* Descripción: Crea una matriz del tamaño de la cantidad de líneas 
+	* que tenga el archivo.
+	* Parámetros: 
+	*	- matrizEntrada: Nombre de la matriz del archivo de entrada.
+	* Retorna:
+	*	- void
  */
 MatrizCostos::MatrizCostos (string matrizEntrada) {
 	ifstream file(matrizEntrada);
@@ -18,7 +25,27 @@ MatrizCostos::MatrizCostos (string matrizEntrada) {
 	}
 }
 
+/*
+	* Método: Otros Métodos->Destructor
+	* Descripción:
+	* Parámetros:
+	* Retorna:
+ */
+MatrizCostos::~MatrizCostos () {
+	delete[] this->matriz;
+}
+
 /*	Agrega los valores desde el archivo de entrada a la clase MatrizCostos
+ */
+
+/*
+	* Método: Otros Métodos->readFile
+	* Descripción: Agrega los valores desde el archivo de entrada a la 
+	* clase MatrizCostos e indica la cantidad de nodos que tiene.
+	* Parámetros:
+	*	- matrizEntrda: el nombre del archivo que contiene la matriz.
+	* Retorna:
+	*	- void
  */
 void MatrizCostos::readFile(string matrizEntrada) {
 	ifstream file(matrizEntrada);
@@ -42,11 +69,13 @@ void MatrizCostos::readFile(string matrizEntrada) {
 }
 
 /*
+	* Método: Otros Métodos->print
+	* Descripción: Imprime por terminal la matriz almacenada.
+	* Parámetros:
+	*	- void
+	* Retorna:
+	*	- void
  */
-MatrizCostos::~MatrizCostos () {
-	delete[] this->matriz;
-}
-
 void MatrizCostos::print() {
 	for (int i = 0 ; i < this->size ; i++) {
 		for (int j = 0 ; j < this->size ; j++) {
@@ -55,9 +84,3 @@ void MatrizCostos::print() {
 		cout << endl;
 	}
 }
-
-
-
-
-
-
