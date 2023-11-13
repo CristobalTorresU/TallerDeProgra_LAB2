@@ -16,9 +16,8 @@ class Prim {
 		int costoFinal;
 		MatrizCostos *costos;
 		multiset<int> nodos;
-		multiset<Edge*, Comparator> arista;
+		multiset<Edge*> arista;
 		multiset<Edge*, Comparator> aristaOut;
-		multiset<Edge*, Comparator>* aristaDisponibles;
 
 		// Metodos
 		// Constructor
@@ -34,5 +33,4 @@ class Prim {
 		bool contieneElNodo(int n);
 		void moverAAristasOut(int nodo);
 		void insertarAristaYNodo(Edge* nuevaArista, int nodo);
-		void almacenarDisponibles(Edge* nuevaArista);
 };

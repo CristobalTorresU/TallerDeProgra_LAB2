@@ -12,16 +12,6 @@ Prim::Prim (string entrada) {
 	// Se crea la MatrizCostos y con ella se agregan las aristas.
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
-	aristaDisponibles = new multiset<Edge*, Comparator>[costos->size];
-	for (int i = 0 ; i < costos->size ; i++) {
-		for (int j = i + 1 ; j < costos->size ; j++) {
-			if (costos->matriz[i][j] != 0) {
-				Edge *nuevaArista = new Edge(i, j, costos->matriz[i][j]);
-				almacenarDisponibles(nuevaArista);
-			}
-		}
-	}
-	// Se genera un arreglo que indica si un nodo ya está en las aristas.
 	this->costoFinal = 0;
 }
 
@@ -73,7 +63,6 @@ void Prim::print () {
  */
 void Prim::resolve () {
 	//Se ingresa el nodo inicial (ultimo)
-	// TODO: Hacer que la eleccion sea aleatoria
 	nodos.insert(this->costos->size-1);
 	moverAAristasOut(this->costos->size-1);
 
@@ -82,8 +71,6 @@ void Prim::resolve () {
 	}
 }
 
-/*	TODO: SISTEMA PARA QUE NO SE REPITAN QUE SEA FUNCIONAL
- */
 /*
 	* Método: Otros Métodos->moverAAristaOut
 	* Descripción: Mueve Edges desde aristaDisponibles (todas las existentes) a 
@@ -94,13 +81,20 @@ void Prim::resolve () {
 	*	- void
  */
 void Prim::moverAAristasOut (int nodo) {
-	for (auto it = aristaDisponibles[nodo].begin() ; it != aristaDisponibles[nodo].end() ; ++it) {
-		/*
-		if (aristaOut.find((*it)) == aristaOut.end()) {
-			aristaOut.insert((*it));
+	for (int i = 0 ; i < nodo ; i++) {
+		if (costos->matriz[i][nodo] != 0) {
+			Edge* nuevaAristaDestino = new Edge(nodo,i,costos->matriz[i][nodo]);
+			aristaOut.insert(nuevaAristaDestino);
+			costos->matriz[i][nodo] = 0;
 		}
-		*/
-		aristaOut.insert((*it));
+	}
+
+	for (int i = nodo ; i < costos->size ; i++) {
+		if (costos->matriz[nodo][i] != 0) {
+			Edge* nuevaAristaInicio = new Edge(i, nodo, costos->matriz[nodo][i]);
+			aristaOut.insert(nuevaAristaInicio);
+			costos->matriz[nodo][i] = 0;
+		}
 	}
 }
 
@@ -119,14 +113,12 @@ void Prim::buscarAristaMinima () {
 	auto it = aristaOut.begin();
 
 	//Agrega el nodo al vector
-	if (!contieneElNodo((*it)->i) || !contieneElNodo((*it)->j)) {
-		if (contieneElNodo((*it)->i)) {
-			insertarAristaYNodo((*it), (*it)->j);
-			moverAAristasOut((*it)->j);
-		} else if (contieneElNodo((*it)->j)){
-			insertarAristaYNodo((*it), (*it)->i);
-			moverAAristasOut((*it)->i);
-		}
+	if (contieneElNodo((*it)->i) && !contieneElNodo((*it)->j)) {
+		insertarAristaYNodo((*it), (*it)->j);
+		moverAAristasOut((*it)->j);
+	} else if (contieneElNodo((*it)->j) && !contieneElNodo((*it)->i)) {
+		insertarAristaYNodo((*it), (*it)->i);
+		moverAAristasOut((*it)->i);
 	}
 	// 
 	aristaOut.erase(it);
@@ -161,18 +153,4 @@ bool Prim::contieneElNodo (int n) {
 		return true;
 	}
 	return false;
-}
-
-/*
-	* Método: Otros Métodos->almacenarDisponibles
-	* Descripción: Agrega la arista ingresada en los dos multiset que representan
-	* las aristas con esos nodos.
-	* Parámetros:
-	*	- nuevaArista: representa la arista que será almacenada en los multiset.
-	* Retorna:
-	*	- void
-*/
-void Prim::almacenarDisponibles (Edge* nuevaArista) {
-	aristaDisponibles[nuevaArista->i].insert(nuevaArista);
-	aristaDisponibles[nuevaArista->j].insert(nuevaArista);
 }
