@@ -25,16 +25,6 @@ MatrizCostos::MatrizCostos (string matrizEntrada) {
 	}
 }
 
-/*
-	* Método: Otros Métodos->Destructor
-	* Descripción:
-	* Parámetros:
-	* Retorna:
- */
-MatrizCostos::~MatrizCostos () {
-	delete[] this->matriz;
-}
-
 /*	Agrega los valores desde el archivo de entrada a la clase MatrizCostos
  */
 

@@ -35,7 +35,6 @@ int main (int argc, char* argv[]) {
 			// Final del timer
 			auto stop = high_resolution_clock::now();
 			// Se muestran los nodos y aristas resultantes
-			//algoritmo.print();
 			ofstream archivo("resultado.txt");
 			for (auto it = algoritmo.arista.begin() ; it != algoritmo.arista.end() ; ++it) {
 				archivo << "(" << (*it)->i << "," << (*it)->j << ") Costo = " << (*it)->cost << endl;
@@ -49,6 +48,5 @@ int main (int argc, char* argv[]) {
 			cout << "Costo total: " << algoritmo.costoFinal << endl;
 		}
 	}
-
 	return 0;
 }

@@ -16,26 +16,3 @@ Edge::Edge (int i, int j, int cost) {
 	this->j = j;
 	this->cost = cost;
 }
-
-/*
-	* Método: Otros Métodos->Destructor
-	* Descripción:
-	* Parámetros:
-	* Retorna:
-*/
-Edge::~Edge () {
-}
-
-/*
-	* Método: Otros Métodos->contains
-	* Descripción: Verifica si el Edge contiene el nodo ingresado.
-	* Parámetros:
-	* Retorna:
-*/
-bool Edge::contains (int nodo) {
-	if (this->i == nodo || this->j == nodo) {
-		return true;
-	} else {
-		return false;
-	}
-}

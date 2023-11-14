@@ -2,32 +2,18 @@
 
 /*
 	* Método: Constructor->Prim
-	* Descripción: Crea la clase Prim, sobre la cual se desarrollan los cálculos.
+	* Descripción: Crea la clase Prim, sobre la cual se desarrollan los cálculos, y
+	* lee el archivo de entrada para guardarlo en la matriz.
 	* Parámetros:
 	*	- entrada: Nombre del archivo que posee la matriz que se leerá.
 	* Retorna: 
 	*	- void
  */
 Prim::Prim (string entrada) {
-	// Se crea la MatrizCostos y con ella se agregan las aristas.
+	// Se crea la MatrizCostos y se inicializa el costo final.
 	this->costos = new MatrizCostos(entrada);
 	costos->readFile(entrada);
 	this->costoFinal = 0;
-}
-
-/*
-	* Método: Destructor->
-	* Descripción:
-	* Parámetros:
-	* Retorna:
- */
-Prim::~Prim () {
-	/*
-	delete[] this->nodos;
-	delete[] this->arista;
-	delete[] this->aristaOut;
-	delete[] this->aristaDisponibles;
-	*/
 }
 
 /*
@@ -73,7 +59,7 @@ void Prim::resolve () {
 
 /*
 	* Método: Otros Métodos->moverAAristaOut
-	* Descripción: Mueve Edges desde aristaDisponibles (todas las existentes) a 
+	* Descripción: Mueve Edges desde la matriz de costos (todas las existentes) a 
 	* aristaOut (las que si se pueden alcanzar desde el árbol formado).
 	* Parámetros:
 	*	- nodo: el nodo nuevo que será ingresado.
@@ -81,6 +67,7 @@ void Prim::resolve () {
 	*	- void
  */
 void Prim::moverAAristasOut (int nodo) {
+	// Las aristas que tienen como destino al nodo ingresado
 	for (int i = 0 ; i < nodo ; i++) {
 		if (costos->matriz[i][nodo] != 0) {
 			Edge* nuevaAristaDestino = new Edge(nodo,i,costos->matriz[i][nodo]);
@@ -89,6 +76,7 @@ void Prim::moverAAristasOut (int nodo) {
 		}
 	}
 
+	// Las aristas que tienen como inicio al nodo ingresado
 	for (int i = nodo ; i < costos->size ; i++) {
 		if (costos->matriz[nodo][i] != 0) {
 			Edge* nuevaAristaInicio = new Edge(i, nodo, costos->matriz[nodo][i]);

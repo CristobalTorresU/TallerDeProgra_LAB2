@@ -8,9 +8,10 @@ using namespace std;
 
 /*
 	* Clase Comparator:
-	*
-	*
-	* El comparadord esta representado blablabla
+	* Esta clase es usada para comparar las aristas que se insertan en los
+	* multiset, para que estñen ordenados por el valor de su costo.
+	* El comparador solamente tiene el método que permite ordenar las 
+	* aristas por su coste, de menor a mayor.
 */
 class Comparator {
 	public:

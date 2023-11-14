@@ -6,8 +6,10 @@ using namespace std;
 
 /* 
 	* Clase Edge:
-	* Clase que representa cada arista del algoritmo
-	*
+	* Esta clase es usada para representar las aristas en el árbol,
+	* presentando un nodo de inicio, otro de destino y el costo.
+	* Clase que está representada por 3 enteros, siendo "i" el nodo
+	* de inicio, "j" el nodo de destino y "cost" el costo asociado.
  */
 class Edge {
 	public:
@@ -17,15 +19,8 @@ class Edge {
 		int cost;
 
 		// Metodos
-
 		// Constructor
 		Edge(int i, int j, int cost);
-		
-		// Destructor
-		~Edge();
-		
-		// Otros metodos
-		bool contains(int nodo);
 };
 
 #endif /* EDGE_H */
